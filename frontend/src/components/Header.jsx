@@ -13,6 +13,13 @@ function SearchIcon() {
   );
 }
 
+const NAV_LINKS = [
+  { to: '/products', label: 'Shop' },
+  { to: '/sale', label: 'On Sale' },
+  { to: '/new-arrivals', label: 'New Arrivals' },
+  { to: '/brands', label: 'Brands' },
+];
+
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,17 +36,13 @@ const Header = () => {
   const closeMobileNav = useCallback(() => setMobileNavOpen(false), []);
 
   useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth > 768) setMobileNavOpen(false);
-    };
+    const onResize = () => { if (window.innerWidth > 768) setMobileNavOpen(false); };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Escape') setMobileNavOpen(false);
-    };
+    const onKey = (e) => { if (e.key === 'Escape') setMobileNavOpen(false); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
@@ -48,19 +51,13 @@ const Header = () => {
     if (!mobileNavOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    return () => { document.body.style.overflow = prev; };
   }, [mobileNavOpen]);
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
     const q = search.trim();
-    if (!q) {
-      navigate('/products');
-      closeMobileNav();
-      return;
-    }
+    if (!q) { navigate('/products'); closeMobileNav(); return; }
     navigate(`/products?keyword=${encodeURIComponent(q)}`);
     closeMobileNav();
   };
@@ -68,15 +65,49 @@ const Header = () => {
   return (
     <>
       <PromoBar />
+
+      {/*
+        Backdrop + mobile drawer are rendered OUTSIDE <header>.
+        <header> has position:sticky + z-index which creates its own stacking context,
+        so any child can never paint above the promo bar (z-index 101, root context).
+        Siblings of <header> are in the root context and can use any z-index freely.
+      */}
       {mobileNavOpen && (
-        <div className="header__backdrop" onClick={closeMobileNav} aria-hidden="true" />
+        <div
+          className="mobile-drawer__backdrop"
+          onClick={closeMobileNav}
+          aria-hidden="true"
+        />
       )}
+
+      <nav
+        className={`mobile-drawer${mobileNavOpen ? ' mobile-drawer--open' : ''}`}
+        aria-label="Site navigation"
+        aria-hidden={!mobileNavOpen}
+        inert={!mobileNavOpen ? '' : undefined}
+      >
+        <button
+          type="button"
+          className="mobile-drawer__close"
+          aria-label="Close menu"
+          onClick={closeMobileNav}
+        >
+          ✕
+        </button>
+        {NAV_LINKS.map(({ to, label }) => (
+          <Link key={to} to={to} onClick={closeMobileNav}>
+            {label}
+          </Link>
+        ))}
+      </nav>
+
       <header className="header">
         <div className="header__container">
+          {/* Hamburger — only visible on mobile */}
           <button
             type="button"
             className="header__menu-btn"
-            aria-label={mobileNavOpen ? 'Menu open, close from panel' : 'Open menu'}
+            aria-label="Open menu"
             aria-expanded={mobileNavOpen}
             onClick={() => setMobileNavOpen((o) => !o)}
           >
@@ -84,36 +115,14 @@ const Header = () => {
           </button>
 
           <div className="header__logo">
-            <Link to="/home" onClick={closeMobileNav}>
-              SHOP.CO
-            </Link>
+            <Link to="/home">SHOP.CO</Link>
           </div>
 
-          <nav className={`header__nav ${mobileNavOpen ? 'header__nav--open' : ''}`} id="site-navigation">
-            <div className="header__nav-drawer-head">
-              <button
-                type="button"
-                className="header__drawer-close"
-                aria-label="Close menu"
-                onClick={closeMobileNav}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="header__nav-links">
-              <Link to="/products" onClick={closeMobileNav}>
-                Shop
-              </Link>
-              <Link to="/sale" onClick={closeMobileNav}>
-                On Sale
-              </Link>
-              <Link to="/new-arrivals" onClick={closeMobileNav}>
-                New Arrivals
-              </Link>
-              <Link to="/brands" onClick={closeMobileNav}>
-                Brands
-              </Link>
-            </div>
+          {/* Desktop-only inline nav — hidden on mobile via CSS */}
+          <nav className="header__nav" id="site-navigation" aria-label="Site navigation">
+            {NAV_LINKS.map(({ to, label }) => (
+              <Link key={to} to={to}>{label}</Link>
+            ))}
           </nav>
 
           <form className="header__search-form" onSubmit={onSearchSubmit} role="search">
@@ -133,29 +142,11 @@ const Header = () => {
 
           <div className="header__actions">
             <div className="cart-icon">
-              <Link to="/cart" onClick={closeMobileNav}>
+              <Link to="/cart">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                  <path
-                    d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
               </Link>

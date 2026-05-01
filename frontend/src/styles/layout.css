@@ -2584,20 +2584,104 @@
   line-height: 1;
 }
 
-.header__backdrop {
+/* ─── Mobile drawer (rendered outside <header> to escape its stacking context) ─── */
+
+.mobile-drawer__backdrop {
   position: fixed;
   inset: 0;
-  z-index: 10000;
-  background: rgba(15, 15, 15, 0.45);
-  animation: backdropFadeIn 0.2s ease;
+  z-index: 9000;
+  background: rgba(15, 15, 15, 0.5);
+  animation: backdropFadeIn 0.22s ease;
 }
 
 @keyframes backdropFadeIn {
-  from {
-    opacity: 0;
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Drawer panel — hidden by default; only shown on mobile (<= 768px) */
+.mobile-drawer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-drawer {
+    display: flex;
+    position: fixed;
+    inset: 0 auto 0 0;           /* full height, left-anchored */
+    width: min(17.5rem, 85vw);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.2rem;
+    padding: max(1rem, env(safe-area-inset-top, 0px)) 1rem
+             max(1.5rem, env(safe-area-inset-bottom, 0px))
+             max(1rem, env(safe-area-inset-left, 0px));
+    background: #ffffff;
+    box-shadow: 6px 0 32px rgba(0, 0, 0, 0.18);
+    border-right: 1px solid #e8ecef;
+    z-index: 9001;               /* above backdrop (9000), not inside header stacking context */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* closed state */
+    transform: translateX(-105%);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.27s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.27s;
   }
-  to {
-    opacity: 1;
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-drawer { transition: none; }
+  }
+
+  .mobile-drawer--open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mobile-drawer__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    align-self: flex-start;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0 0 1.25rem -0.2rem;
+    padding: 0.2rem;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #1a1a1a;
+  }
+
+  .mobile-drawer__close:hover,
+  .mobile-drawer__close:focus-visible {
+    background: #f0f0f2;
+  }
+
+  .mobile-drawer__close:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+  }
+
+  .mobile-drawer a {
+    display: block;
+    padding: 0.78rem 0.65rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+
+  .mobile-drawer a:hover,
+  .mobile-drawer a:focus-visible {
+    background: #f4f4f6;
   }
 }
 
@@ -2676,11 +2760,6 @@
     flex-shrink: 0;
   }
 
-  .header__container:has(.header__nav--open) .header__menu-btn {
-    visibility: hidden;
-    pointer-events: none;
-  }
-
   .header__logo {
     position: absolute;
     left: 50%;
@@ -2716,102 +2795,9 @@
     display: none;
   }
 
-  /* Left drawer — above header/promo (full overlay); close control lives inside panel */
+  /* Desktop inline nav hidden on mobile — drawer is handled by .mobile-drawer outside <header> */
   .header__nav {
-    display: flex;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: min(18rem, 88vw);
-    max-width: 100%;
-    margin: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: max(1rem, env(safe-area-inset-top)) max(1.15rem, env(safe-area-inset-right)) max(1.5rem, env(safe-area-inset-bottom))
-      max(1.15rem, env(safe-area-inset-left));
-    background: #ffffff;
-    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.14);
-    border: none;
-    border-right: 1px solid #e8ecef;
-    z-index: 10001;
-    transform: translateX(-105%);
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    visibility: hidden;
-    pointer-events: none;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .header__nav.header__nav--open {
-    transform: translateX(0);
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .header__nav-drawer-head {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-shrink: 0;
-    margin-bottom: 1.5rem;
-    padding-top: 0.35rem;
-  }
-
-  .header__drawer-close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0.25rem;
-    margin: 0;
-    margin-left: -0.15rem;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    font-size: 1.45rem;
-    line-height: 1;
-    cursor: pointer;
-    color: #1a1a1a;
-  }
-
-  .header__drawer-close:hover,
-  .header__drawer-close:focus-visible {
-    background: #f0f0f2;
-    outline: none;
-  }
-
-  .header__drawer-close:focus-visible {
-    outline: 2px solid #111;
-    outline-offset: 2px;
-  }
-
-  .header__nav-links {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.25rem;
-  }
-
-  .header__nav-links a {
-    padding: 0.75rem 0.6rem;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  .header__nav-links a:hover,
-  .header__nav-links a:focus-visible {
-    background: #f4f4f6;
-    color: #1a1a1a;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .header__nav {
-      transition: none;
-    }
+    display: none;
   }
 
   .header__search-form {
