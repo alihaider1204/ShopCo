@@ -1,0 +1,150 @@
+/* Admin overview dashboard — KPIs, charts, responsive */
+.admin-dash {
+  width: 100%;
+  min-width: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.admin-dash-intro {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #555;
+  max-width: 48rem;
+}
+
+.admin-dash-empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.admin-dash-retry {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.admin-dash-retry:hover {
+  background: #333;
+}
+
+.admin-dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-dash-kpi {
+  background: #fff;
+  border: 1.5px solid #e8e8ec;
+  border-radius: 16px;
+  padding: 1.15rem 1.2rem 1.2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.admin-dash-kpi__label {
+  font-size: 0.72rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #666;
+}
+
+.admin-dash-kpi__value {
+  font-size: clamp(1.45rem, 3.5vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #111;
+  line-height: 1.15;
+}
+
+.admin-dash-kpi__hint {
+  font-size: 0.8rem;
+  color: #888;
+  line-height: 1.35;
+}
+
+.admin-dash-subgrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1.35rem;
+}
+
+.admin-dash-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: #f3f4f6;
+  color: #333;
+  border: 1px solid #e5e5e9;
+}
+
+.admin-dash-pill strong {
+  font-weight: 700;
+}
+
+.admin-dash-pill--warn {
+  background: #fff8f0;
+  border-color: #ffd8a8;
+  color: #b35c00;
+}
+
+.admin-dash-pill--ok {
+  background: #eef7ef;
+  border-color: #c8e6c9;
+  color: #1b5e20;
+}
+
+.admin-dash-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1.15rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-dash-chart-card {
+  background: #fff;
+  border: 1.5px solid #e8e8ec;
+  border-radius: 16px;
+  padding: 1.1rem 1rem 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  min-width: 0;
+}
+
+.admin-dash-chart-card h3 {
+  margin: 0 0 0.65rem 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #222;
+  letter-spacing: -0.02em;
+}
+
+.admin-dash-chart-wrap {
+  width: 100%;
+  height: min(42vw, 280px);
+  min-height: 220px;
+}
+
+@media (max-width: 480px) {
+  .admin-dash-chart-wrap {
+    height: 240px;
+  }
+}

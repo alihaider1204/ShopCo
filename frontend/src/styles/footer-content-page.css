@@ -1,0 +1,108 @@
+/* Standalone informational pages linked from the footer */
+
+.footer-content-page {
+  width: 100%;
+  max-width: min(720px, 92vw);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.75rem) max(1rem, env(safe-area-inset-left))
+    clamp(2.5rem, 8vw, 4rem) max(1rem, env(safe-area-inset-right));
+  box-sizing: border-box;
+}
+
+.footer-content-page__breadcrumb {
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+}
+
+.footer-content-page__breadcrumb a {
+  color: #666;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-content-page__breadcrumb a:hover {
+  color: #111;
+}
+
+.footer-content-page h1 {
+  margin: 0 0 0.75rem;
+  font-family: 'Integral CF', Arial, sans-serif;
+  font-size: clamp(1.65rem, 4vw, 2.15rem);
+  font-weight: bold;
+  color: #111;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.footer-content-page__intro {
+  margin: 0 0 1.75rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #444;
+}
+
+.footer-content-page section {
+  margin-bottom: 1.75rem;
+}
+
+.footer-content-page section:last-child {
+  margin-bottom: 0;
+}
+
+.footer-content-page h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.02em;
+}
+
+.footer-content-page p {
+  margin: 0 0 0.75rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.footer-content-page p:last-child {
+  margin-bottom: 0;
+}
+
+.footer-content-page__actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8ecef;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footer-content-page__actions a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111;
+  background: #fff;
+  border: 1px solid #c8c8d0;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.footer-content-page__actions a:hover {
+  background: #f5f5f7;
+  border-color: #111;
+}
+
+.footer-content-page__actions a.footer-content-page__actions--primary {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.footer-content-page__actions a.footer-content-page__actions--primary:hover {
+  background: #333;
+  border-color: #333;
+}

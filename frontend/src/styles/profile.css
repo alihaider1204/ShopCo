@@ -1,0 +1,338 @@
+/* My Account — modern layout, normal casing (no faux “shouting” caps) */
+.profile-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1rem, 3vw, 1.5rem) 3rem;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  text-transform: none;
+  color: #1a1a1a;
+  background: linear-gradient(180deg, #f3f4f6 0%, #fafafa 120px, #fafafa 100%);
+  min-height: min-content;
+}
+
+.profile-shell {
+  width: 100%;
+}
+
+.profile-shell--narrow {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.profile-loading {
+  text-align: center;
+  color: #555;
+  padding: 3rem 1rem;
+  margin: 0;
+}
+
+.profile-header {
+  margin-bottom: 1.75rem;
+}
+
+.profile-title {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #111;
+  margin: 0 0 0.35rem;
+  text-transform: none;
+  border: none;
+  padding: 0;
+}
+
+.profile-lead {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #5c5c5c;
+  max-width: 36rem;
+  text-transform: none;
+}
+
+.profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.account-card {
+  background: #fff;
+  border: 1px solid #e8e8ec;
+  border-radius: 14px;
+  padding: 1.35rem 1.35rem 1.45rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.04);
+  text-transform: none;
+}
+
+.account-card__title {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: #111;
+  margin: 0 0 0.35rem;
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+
+.account-card__desc {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #666;
+  text-transform: none;
+}
+
+.account-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.account-card__cta:hover {
+  background: #333;
+  color: #fff;
+}
+
+.account-card__cta:active {
+  transform: scale(0.98);
+}
+
+.account-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.15rem;
+}
+
+.account-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.account-field--full {
+  grid-column: 1 / -1;
+}
+
+.account-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #444;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.account-optional {
+  font-weight: 500;
+  color: #888;
+}
+
+.account-field input:not([type='checkbox']) {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid #d8d8de;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #111;
+  background: #fdfdfd;
+  text-transform: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.account-field input::placeholder {
+  color: #9a9a9d;
+  text-transform: none;
+}
+
+.account-field input:hover:not(:disabled) {
+  border-color: #c8c8d0;
+}
+
+.account-field input:focus {
+  outline: none;
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+  background: #fff;
+}
+
+.account-field input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.account-field-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Password visibility — same pattern as auth forms, scoped to profile */
+.profile-edit-form .auth-input-with-toggle.account-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.profile-edit-form .account-password-wrap input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding-right: 48px;
+}
+
+.profile-edit-form .auth-password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  box-sizing: border-box;
+  font: inherit;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+}
+
+.profile-edit-form .auth-password-toggle:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.06);
+  color: #111;
+}
+
+.profile-edit-form .auth-password-toggle:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.profile-edit-form .auth-password-toggle:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.profile-edit-form .auth-password-toggle svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.account-prefs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.account-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #333;
+  cursor: pointer;
+  text-transform: none;
+  font-weight: 400;
+}
+
+.account-checkbox input[type='checkbox'] {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  accent-color: #111;
+  cursor: pointer;
+}
+
+.account-checkbox span {
+  flex: 1;
+}
+
+.profile-actions {
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.account-security-actions {
+  margin-top: 0.75rem;
+}
+
+.profile-password-btn {
+  padding: 0.65rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+  border: 1px solid #c8c8d0;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.profile-password-btn:hover:not(:disabled) {
+  background: #f5f5f7;
+  border-color: #a8a8b4;
+}
+
+.profile-password-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.profile-save-btn {
+  width: 100%;
+  max-width: 280px;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  font-family: inherit;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.profile-save-btn:hover:not(:disabled) {
+  background: #333;
+}
+
+.profile-save-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .account-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-actions .profile-save-btn {
+    max-width: none;
+  }
+}

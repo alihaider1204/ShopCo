@@ -1,0 +1,308 @@
+/* Admin loading — skeletons + dual-ring spinner (no plain “Loading…” text) */
+
+.admin-loader-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes admin-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes admin-loader-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes admin-loader-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.admin-loader-shimmer {
+  border-radius: 8px;
+  background: linear-gradient(
+    110deg,
+    #ececef 0%,
+    #ececef 40%,
+    #f7f7f9 50%,
+    #ececef 60%,
+    #ececef 100%
+  );
+  background-size: 200% 100%;
+  animation: admin-loader-shimmer 1.35s ease-in-out infinite;
+}
+
+.admin-loader-shimmer--xs {
+  height: 10px;
+  width: 38%;
+  border-radius: 6px;
+}
+.admin-loader-shimmer--sm {
+  height: 12px;
+  width: 72%;
+  border-radius: 6px;
+}
+.admin-loader-shimmer--md {
+  height: 14px;
+  width: 88%;
+  max-width: 520px;
+}
+.admin-loader-shimmer--lg {
+  height: 14px;
+  width: 96%;
+  max-width: 640px;
+}
+.admin-loader-shimmer--xl {
+  height: 28px;
+  width: 55%;
+  border-radius: 10px;
+}
+.admin-loader-shimmer--title {
+  height: 16px;
+  width: 42%;
+  margin-bottom: 0.65rem;
+}
+.admin-loader-shimmer--chart {
+  height: min(42vw, 260px);
+  min-height: 200px;
+  width: 100%;
+  border-radius: 12px;
+}
+.admin-loader-shimmer--pill {
+  height: 36px;
+  width: 120px;
+  border-radius: 999px;
+}
+.admin-loader-shimmer--pill-wide {
+  width: min(100%, 280px);
+  flex: 1;
+  min-width: 160px;
+}
+.admin-loader-shimmer--cell {
+  height: 14px;
+  flex: 1;
+  min-width: 48px;
+  border-radius: 6px;
+}
+.admin-loader-shimmer--cell-sm {
+  height: 12px;
+  opacity: 0.92;
+}
+
+.admin-loader-rings {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.admin-loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+
+.admin-loader-ring--outer {
+  border-top-color: #111;
+  border-right-color: #111;
+  opacity: 0.9;
+  animation: admin-loader-spin 0.95s linear infinite;
+}
+
+.admin-loader-ring--inner {
+  inset: 8px;
+  border-bottom-color: #c5c5ce;
+  border-left-color: #c5c5ce;
+  animation: admin-loader-spin-rev 1.2s linear infinite;
+}
+
+/* —— Dashboard skeleton —— */
+.admin-loader-dash {
+  width: 100%;
+  min-width: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  position: relative;
+}
+
+.admin-loader-dash-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-loader-dash-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-loader-dash-card {
+  background: #fff;
+  border: 1.5px solid #e8e8ec;
+  border-radius: 16px;
+  padding: 1.15rem 1.2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.admin-loader-dash-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1.35rem;
+}
+
+.admin-loader-dash-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1.15rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-loader-dash-chart {
+  background: #fff;
+  border: 1.5px solid #e8e8ec;
+  border-radius: 16px;
+  padding: 1.1rem 1rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.admin-loader-dash-brand {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0 0.25rem;
+  opacity: 0.85;
+}
+
+/* —— Table skeleton —— */
+.admin-loader-table-wrap {
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-loader-table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.admin-loader-table-card {
+  background: #fff;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.admin-loader-table-head,
+.admin-loader-table-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  align-items: center;
+}
+
+.admin-loader-table-head {
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-loader-table-row {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-loader-table-row:last-child {
+  border-bottom: none;
+}
+
+.admin-loader-table-footer {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .admin-loader-table-head,
+  .admin-loader-table-row {
+    gap: 0.45rem;
+    padding: 0.65rem 0.75rem;
+  }
+}
+
+/* Nested in .admin-orders-table-wrap: single outer border like real tables */
+.admin-orders-table-wrap > .admin-loader-table-wrap .admin-loader-table-card {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+/* —— Panel / form centered loader —— */
+.admin-loader-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(240px, 38vh, 420px);
+  padding: 2rem 1rem;
+}
+
+.admin-loader-panel-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  border: 1.5px solid #e8e8ec;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes admin-loader-bar {
+  0%,
+  100% {
+    transform: scaleY(0.38);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.admin-loader-panel-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 28px;
+}
+
+.admin-loader-bar {
+  width: 5px;
+  height: 24px;
+  background: #111;
+  border-radius: 3px;
+  transform-origin: center bottom;
+  animation: admin-loader-bar 0.9s ease-in-out infinite;
+}
