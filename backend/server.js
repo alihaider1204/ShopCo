@@ -30,6 +30,13 @@ if (!process.env.JWT_SECRET || String(process.env.JWT_SECRET).length < 16) {
 
 const app = express();
 
+/**
+ * Trust the first hop proxy (Render, Heroku, Vercel, etc.).
+ * Required so express-rate-limit can read the real client IP from X-Forwarded-For.
+ * '1' means trust one proxy layer — safe for single-proxy deployments like Render.
+ */
+app.set('trust proxy', 1);
+
 /** Stripe webhooks require raw body — must run before express.json() */
 app.post(
   "/api/payment/webhook",
