@@ -18,6 +18,7 @@ import {
   loadActiveCouponForCheckout,
   recordCouponRedemption,
 } from "../utils/couponApply.js";
+import { sendShippedNotificationEmail } from "../services/emailService.js";
 
 const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const orderUserIdString = (order) => {

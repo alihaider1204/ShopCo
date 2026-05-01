@@ -2591,7 +2591,7 @@
 .header__backdrop {
   position: fixed;
   inset: 0;
-  z-index: 99;
+  z-index: 98;
   background: rgba(15, 15, 15, 0.45);
   animation: backdropFadeIn 0.2s ease;
 }
@@ -2671,12 +2671,18 @@
     row-gap: 0;
   }
 
+  .header__container--nav-open .header__menu-btn,
+  .header__container--nav-open .header__logo,
+  .header__container--nav-open .header__actions {
+    z-index: 25;
+  }
+
   .header__menu-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 2;
+    z-index: 4;
     flex-shrink: 0;
   }
 
@@ -2691,7 +2697,7 @@
     text-align: center;
     padding-right: 0;
     pointer-events: none;
-    z-index: 1;
+    z-index: 3;
   }
 
   .header__logo a {
@@ -2703,7 +2709,7 @@
     flex-shrink: 0;
     margin-left: auto;
     position: relative;
-    z-index: 2;
+    z-index: 4;
   }
 
   .header__actions .cart-icon {
@@ -2715,20 +2721,58 @@
     display: none;
   }
 
+  /* Left drawer — not in the header row (avoids overlapping SHOP.CO) */
   .header__nav {
-    display: none;
-    order: 4;
-    width: 100%;
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(18rem, 88vw);
+    max-width: 100%;
+    margin: 0;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-top: 1px solid #e8ecef;
-    margin-top: 0.75rem;
+    align-items: stretch;
+    gap: 0.125rem;
+    padding: clamp(4.75rem, 15vw, 6.25rem) 1.15rem 1.5rem;
+    padding-left: max(1.15rem, env(safe-area-inset-left));
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    background: #ffffff;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.14);
+    border: none;
+    border-right: 1px solid #e8ecef;
+    z-index: 2;
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    pointer-events: none;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .header__nav.header__nav--open {
-    display: flex;
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .header__nav a {
+    padding: 0.75rem 0.6rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .header__nav a:hover,
+  .header__nav a:focus-visible {
+    background: #f4f4f6;
+    color: #1a1a1a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header__nav {
+      transition: none;
+    }
   }
 
   .header__search-form {
