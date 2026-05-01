@@ -92,41 +92,31 @@ app.get("/api/site-content/home_hero", getPublicHero);
 app.use("/api/admin", adminHubRoutes);
 app.use("/api/newsletter", newsletterLimiter, newsletterRoutes);
 
-// ── Temporary SMTP diagnostic endpoint — remove after testing ──────────────
+// ── Temporary SendGrid diagnostic endpoint — remove after testing ──────────
 app.get("/api/debug/test-email", async (req, res) => {
   const secret = process.env.DEBUG_SECRET;
   if (!secret || req.query.secret !== secret) {
     return res.status(403).json({ error: "Forbidden" });
   }
-  const nodemailer = (await import("nodemailer")).default;
-  const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const from = process.env.EMAIL_FROM || user;
-  const to   = req.query.to || user;
-  if (!host || !user || !pass) {
-    return res.json({ ok: false, step: "config", host: !!host, user: !!user, pass: !!pass });
-  }
-  const transport = nodemailer.createTransport({
-    host, port, secure: port === 465, auth: { user, pass },
-    connectionTimeout: 10_000, socketTimeout: 15_000, greetingTimeout: 10_000,
-  });
+  const apiKey = process.env.SENDGRID_API_KEY;
+  const from   = (process.env.EMAIL_FROM || "").trim();
+  const to     = (req.query.to || from || "").trim();
+  if (!apiKey) return res.json({ ok: false, step: "config", error: "SENDGRID_API_KEY not set" });
+  if (!from)   return res.json({ ok: false, step: "config", error: "EMAIL_FROM not set" });
+  if (!to)     return res.json({ ok: false, step: "config", error: "to address missing" });
   try {
-    await transport.verify();
-  } catch (err) {
-    return res.json({ ok: false, step: "verify", error: err.message });
-  }
-  try {
-    const info = await transport.sendMail({
-      from: `"${process.env.STORE_NAME || "SMTP test"}" <${from}>`,
+    const { default: sgMail } = await import("@sendgrid/mail");
+    sgMail.setApiKey(apiKey);
+    await sgMail.send({
+      from: { name: process.env.STORE_NAME || "SMTP test", email: from },
       to,
-      subject: `[${process.env.STORE_NAME || "SMTP test"}] connection test`,
-      text: `SMTP is working. Sent at ${new Date().toISOString()}`,
+      subject: `[${process.env.STORE_NAME || "SHOP.CO"}] email test`,
+      text: `SendGrid is working. Sent at ${new Date().toISOString()}`,
     });
-    return res.json({ ok: true, messageId: info.messageId, to });
+    return res.json({ ok: true, to, from });
   } catch (err) {
-    return res.json({ ok: false, step: "sendMail", error: err.message });
+    const detail = err?.response?.body?.errors?.[0]?.message || err.message;
+    return res.json({ ok: false, step: "sendGrid", error: detail });
   }
 });
 // ── End temporary endpoint ──────────────────────────────────────────────────
