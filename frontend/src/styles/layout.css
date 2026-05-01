@@ -40,6 +40,18 @@
   display: flex;
   gap: 2rem;
 }
+
+.header__nav-drawer-head {
+  display: none;
+}
+
+.header__nav-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
 .header__nav a {
   color: #1A1A1A;
   text-decoration: none;
@@ -797,13 +809,8 @@
   letter-spacing: 1px;
 }
 
-.products-grid {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
-}
+/* Catalog grids use products.css (.products-page .products-grid, .products-grid--skeleton).
+   Homepage rows use .products-grid--home only. */
 
 .product-card {
   background: #fff;
@@ -1021,17 +1028,6 @@
   background: #f5f5f5;
   color: #111;
   border-color: #ccc;
-}
-
-@media (max-width: 900px) {
-  .products-grid {
-    gap: 16px;
-  }
-  .product-card:not(.product-card--home) {
-    width: 44vw;
-    min-width: 160px;
-    padding: 16px 8px 12px 8px;
-  }
 }
 
 /* Dress Style — checkerboard widths (SHOP.CO): narrow|wide row1, wide|narrow row2 */
@@ -2591,7 +2587,7 @@
 .header__backdrop {
   position: fixed;
   inset: 0;
-  z-index: 98;
+  z-index: 10000;
   background: rgba(15, 15, 15, 0.45);
   animation: backdropFadeIn 0.2s ease;
 }
@@ -2671,12 +2667,6 @@
     row-gap: 0;
   }
 
-  .header__container--nav-open .header__menu-btn,
-  .header__container--nav-open .header__logo,
-  .header__container--nav-open .header__actions {
-    z-index: 25;
-  }
-
   .header__menu-btn {
     display: flex;
     align-items: center;
@@ -2684,6 +2674,11 @@
     position: relative;
     z-index: 4;
     flex-shrink: 0;
+  }
+
+  .header__container:has(.header__nav--open) .header__menu-btn {
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .header__logo {
@@ -2721,7 +2716,7 @@
     display: none;
   }
 
-  /* Left drawer — not in the header row (avoids overlapping SHOP.CO) */
+  /* Left drawer — above header/promo (full overlay); close control lives inside panel */
   .header__nav {
     display: flex;
     position: fixed;
@@ -2733,15 +2728,14 @@
     margin: 0;
     flex-direction: column;
     align-items: stretch;
-    gap: 0.125rem;
-    padding: clamp(4.75rem, 15vw, 6.25rem) 1.15rem 1.5rem;
-    padding-left: max(1.15rem, env(safe-area-inset-left));
-    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    gap: 0;
+    padding: max(1rem, env(safe-area-inset-top)) max(1.15rem, env(safe-area-inset-right)) max(1.5rem, env(safe-area-inset-bottom))
+      max(1.15rem, env(safe-area-inset-left));
     background: #ffffff;
     box-shadow: 6px 0 28px rgba(0, 0, 0, 0.14);
     border: none;
     border-right: 1px solid #e8ecef;
-    z-index: 2;
+    z-index: 10001;
     transform: translateX(-105%);
     transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     visibility: hidden;
@@ -2756,15 +2750,60 @@
     pointer-events: auto;
   }
 
-  .header__nav a {
+  .header__nav-drawer-head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 1.5rem;
+    padding-top: 0.35rem;
+  }
+
+  .header__drawer-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.25rem;
+    margin: 0;
+    margin-left: -0.15rem;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 1.45rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #1a1a1a;
+  }
+
+  .header__drawer-close:hover,
+  .header__drawer-close:focus-visible {
+    background: #f0f0f2;
+    outline: none;
+  }
+
+  .header__drawer-close:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+  }
+
+  .header__nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .header__nav-links a {
     padding: 0.75rem 0.6rem;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 600;
   }
 
-  .header__nav a:hover,
-  .header__nav a:focus-visible {
+  .header__nav-links a:hover,
+  .header__nav-links a:focus-visible {
     background: #f4f4f6;
     color: #1a1a1a;
   }

@@ -72,15 +72,15 @@ const Header = () => {
         <div className="header__backdrop" onClick={closeMobileNav} aria-hidden="true" />
       )}
       <header className="header">
-        <div className={`header__container ${mobileNavOpen ? 'header__container--nav-open' : ''}`}>
+        <div className="header__container">
           <button
             type="button"
             className="header__menu-btn"
-            aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileNavOpen ? 'Menu open, close from panel' : 'Open menu'}
             aria-expanded={mobileNavOpen}
             onClick={() => setMobileNavOpen((o) => !o)}
           >
-            {mobileNavOpen ? '✕' : '☰'}
+            ☰
           </button>
 
           <div className="header__logo">
@@ -90,18 +90,30 @@ const Header = () => {
           </div>
 
           <nav className={`header__nav ${mobileNavOpen ? 'header__nav--open' : ''}`} id="site-navigation">
-            <Link to="/products" onClick={closeMobileNav}>
-              Shop
-            </Link>
-            <Link to="/sale" onClick={closeMobileNav}>
-              On Sale
-            </Link>
-            <Link to="/new-arrivals" onClick={closeMobileNav}>
-              New Arrivals
-            </Link>
-            <Link to="/brands" onClick={closeMobileNav}>
-              Brands
-            </Link>
+            <div className="header__nav-drawer-head">
+              <button
+                type="button"
+                className="header__drawer-close"
+                aria-label="Close menu"
+                onClick={closeMobileNav}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="header__nav-links">
+              <Link to="/products" onClick={closeMobileNav}>
+                Shop
+              </Link>
+              <Link to="/sale" onClick={closeMobileNav}>
+                On Sale
+              </Link>
+              <Link to="/new-arrivals" onClick={closeMobileNav}>
+                New Arrivals
+              </Link>
+              <Link to="/brands" onClick={closeMobileNav}>
+                Brands
+              </Link>
+            </div>
           </nav>
 
           <form className="header__search-form" onSubmit={onSearchSubmit} role="search">

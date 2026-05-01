@@ -203,8 +203,9 @@
   font-size: 0.9rem;
 }
 
-/* Products Grid */
-.products-grid {
+/* Products grid — scoped so global layout.css cannot force flex on this */
+.products-page .products-grid,
+.products-grid.products-grid--skeleton {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
@@ -415,10 +416,17 @@
     margin-bottom: 2rem;
   }
 
-  /* Two columns on phones — auto-fill + 200px min leaves a single column on ~360px wide viewports */
-  .products-grid {
+  /* Two columns on phones — explicit tracks (minmax(250px) auto-fill yields one column on ~360px) */
+  .products-page .products-grid,
+  .products-grid.products-grid--skeleton {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.65rem;
+  }
+
+  .products-page .product-card:not(.product-card--home) {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
   }
 
   .product-info {
