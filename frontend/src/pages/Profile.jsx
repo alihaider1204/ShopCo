@@ -117,6 +117,7 @@ const Profile = () => {
         lastName: data.lastName,
         email: data.email,
         isAdmin: data.isAdmin,
+        role: data.role,
       });
       setForm((f) => ({
         ...f,

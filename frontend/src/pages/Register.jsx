@@ -64,6 +64,11 @@ const Register = () => {
       toast.error('Please enter your email.', toastOpts);
       return;
     }
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!EMAIL_RE.test(email)) {
+      toast.error('Please enter a valid email address.', toastOpts);
+      return;
+    }
     if (password.length < PW_MIN) {
       toast.error(`Password must be at least ${PW_MIN} characters.`, toastOpts);
       return;

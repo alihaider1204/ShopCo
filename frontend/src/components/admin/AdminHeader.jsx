@@ -6,7 +6,7 @@ import '../../styles/admin-ops.css';
 const AdminHeader = () => (
   <header className="header">
     <div className="header__container header__container--admin">
-      <div className="header__logo">SHOP.CO Admin</div>
+      <Link to="/admin" className="header__logo" style={{ textDecoration: 'none', color: 'inherit' }}>SHOP.CO Admin</Link>
       <div className="header__actions header__actions--admin">
         <Link to="/home" className="admin-header-store-link">
           View storefront

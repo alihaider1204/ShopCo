@@ -9,10 +9,15 @@ import '../styles/product-detail.css';
 const ADD_TO_CART_NAV_MS = 2500;
 
 const tabs = [
-  { id: 'details', label: 'Product Details' },
   { id: 'reviews', label: 'Rating & Reviews' },
+  { id: 'details', label: 'Product Details' },
   { id: 'faqs', label: 'FAQs' },
 ];
+
+const renderStars = (rating, max = 5) => {
+  const full = Math.round(Number(rating) || 0);
+  return '★'.repeat(Math.min(full, max)) + '☆'.repeat(Math.max(0, max - full));
+};
 
 function ProductDetail() {
   const { id } = useParams();
@@ -26,7 +31,7 @@ function ProductDetail() {
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
   const [qty, setQty] = useState(1);
-  const [tab, setTab] = useState('reviews');
+  const [tab, setTab] = useState('reviews'); // matches first tab
 
   const [reviewData, setReviewData] = useState({ reviews: [], pages: 1, total: 0 });
 
@@ -179,7 +184,7 @@ function ProductDetail() {
         <div className="product-detail-info">
           <h1>{product.name}</h1>
           <div className="product-detail-rating">
-            {'★'.repeat(Math.round(product.rating || 0))}
+            {renderStars(product.rating)}
             <span>{(product.rating || 0).toFixed(1)}/5</span>
           </div>
           <div className="product-detail-price-row">
@@ -268,7 +273,7 @@ function ProductDetail() {
                 {reviewData.reviews.map((r) => (
                   <div key={r._id || `${r.name}-${r.comment}`} className="review-card">
                     <div className="review-stars">
-                      {'★'.repeat(Math.round(r.rating))}
+                      {renderStars(r.rating)}
                       <span className="review-rating-num">{(Number(r.rating) || 0).toFixed(1)}/5</span>
                     </div>
                     <div className="review-name">

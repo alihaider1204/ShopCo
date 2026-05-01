@@ -35,6 +35,13 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+userSchema.pre("save", function (next) {
+  if (this.isModified("email") && this.email) {
+    this.email = this.email.trim().toLowerCase();
+  }
+  next();
+});
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();

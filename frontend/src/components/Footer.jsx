@@ -140,7 +140,7 @@ const Footer = () => {
 
       <div className="footer__bottom">
         <span className="footer__copyright">
-          SHOP.CO © 2000–{year}, All Rights Reserved
+          SHOP.CO © {year}, All Rights Reserved
         </span>
         <div className="footer__payments" aria-label="Accepted payment methods">
           <img src={imgVisa} alt="Visa" className="footer__pay-icon" loading="lazy" />

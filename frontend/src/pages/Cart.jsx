@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import TransitionOverlay from '../components/ui/TransitionOverlay';
 import { useCart } from '../context/CartContext';
 import '../styles/cart.css';
@@ -10,7 +9,6 @@ const CHECKOUT_NAV_MS = 2800;
 const Cart = () => {
   const navigate = useNavigate();
   const { items, updateQty, removeItem, subtotal } = useCart();
-  const [promo, setPromo] = useState('');
   const [goingCheckout, setGoingCheckout] = useState(false);
   const checkoutTimerRef = useRef(null);
 
@@ -20,19 +18,8 @@ const Cart = () => {
     };
   }, []);
 
-  const discountPct = promo.trim().toUpperCase() === 'SAVE20' ? 20 : 0;
-  const discount = useMemo(() => (subtotal * discountPct) / 100, [subtotal, discountPct]);
   const deliveryFee = 15;
-  const total = subtotal - discount + deliveryFee;
-
-  const applyPromo = (e) => {
-    e.preventDefault();
-    if (promo.trim().toUpperCase() === 'SAVE20') {
-      toast.success('Promo applied: 20% off');
-    } else if (promo.trim()) {
-      toast.error('Invalid promo code');
-    }
-  };
+  const total = subtotal + deliveryFee;
 
   const goToCheckout = () => {
     if (goingCheckout) return;
@@ -117,10 +104,6 @@ const Cart = () => {
               <span>Subtotal</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
-            <div className="summary-row discount">
-              <span>Discount {discountPct ? `(-${discountPct}%)` : ''}</span>
-              <span>-${discount.toFixed(2)}</span>
-            </div>
             <div className="summary-row">
               <span>Delivery Fee</span>
               <span>${deliveryFee.toFixed(2)}</span>
@@ -129,15 +112,7 @@ const Cart = () => {
               <span>Total</span>
               <span>${total.toFixed(2)}</span>
             </div>
-            <form className="promo-code" onSubmit={applyPromo}>
-              <input
-                type="text"
-                placeholder="Promo code (try SAVE20)"
-                value={promo}
-                onChange={(e) => setPromo(e.target.value)}
-              />
-              <button type="submit">Apply</button>
-            </form>
+            <p className="cart-coupon-note">Have a coupon? Apply it at checkout.</p>
             <button
               type="button"
               className="checkout-button"

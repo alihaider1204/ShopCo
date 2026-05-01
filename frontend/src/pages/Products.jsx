@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import ProductsFilter from '../components/products/ProductsFilter';
 import ProductsGrid from '../components/products/ProductsGrid';
 import ProductsPagination from '../components/products/ProductsPagination';
 import ProductsGridSkeleton from '../components/ui/ProductsGridSkeleton';
-import api from '../utils/api';
+import api, { getApiErrorMessage, toastOpts } from '../utils/api';
 import '../styles/products.css';
 
 /** Matches price slider range in ProductsFilter — avoids hiding products until user narrows price */
@@ -33,6 +34,7 @@ const Products = () => {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState('');
   const [page, setPage] = useState(pageFromUrl);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
@@ -55,6 +57,7 @@ const Products = () => {
     let cancelled = false;
     (async () => {
       setLoading(true);
+      setFetchError('');
       try {
         const params = {
           page,
@@ -74,11 +77,14 @@ const Products = () => {
         setProducts(data.products || []);
         setPages(data.pages || 1);
         setTotal(data.total ?? 0);
-      } catch {
+      } catch (err) {
         if (!cancelled) {
           setProducts([]);
           setPages(1);
           setTotal(0);
+          const msg = getApiErrorMessage(err, 'Failed to load products. Please try again.');
+          setFetchError(msg);
+          toast.error(msg, toastOpts);
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -183,10 +189,24 @@ const Products = () => {
           </div>
           {loading ? (
             <ProductsGridSkeleton count={10} />
+          ) : fetchError ? (
+            <div className="products-empty">
+              <p>{fetchError}</p>
+              <button
+                type="button"
+                className="add-to-cart-btn"
+                style={{ maxWidth: 200, margin: '1rem auto' }}
+                onClick={() => window.location.reload()}
+              >
+                Retry
+              </button>
+            </div>
+          ) : products.length === 0 ? (
+            <p className="products-empty">No products found. Try adjusting your filters.</p>
           ) : (
             <ProductsGrid products={products} />
           )}
-          {!loading && (
+          {!loading && !fetchError && (
             <ProductsPagination currentPage={page} totalPages={pages} onPageChange={onPageChange} />
           )}
         </div>
