@@ -16,6 +16,9 @@ function createTransport() {
     port,
     secure: port === 465,
     auth: { user, pass },
+    connectionTimeout: 10_000,  // fail fast if SMTP host is unreachable (10 s)
+    socketTimeout: 15_000,      // fail fast if send stalls mid-stream (15 s)
+    greetingTimeout: 10_000,
   });
 }
 

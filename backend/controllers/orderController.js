@@ -626,15 +626,16 @@ export const updateOrderDelivered = asyncHandler(async (req, res) => {
   order.deliveredAt = req.body.deliveredAt ? new Date(req.body.deliveredAt) : new Date();
   await order.save();
   const fresh = await Order.findById(order._id).populate("user", "firstName lastName email");
-  if (!wasAlreadyDelivered) {
-    try {
-      const recipient = emailRecipientFromOrder(fresh, null);
-      await sendShippedNotificationEmail(fresh, recipient);
-    } catch (err) {
-      console.error("[email] shipped notification:", err?.message || err);
-    }
-  }
+
+  // Respond immediately — do NOT await the email so a slow/broken SMTP never hangs the admin UI.
   res.json(fresh);
+
+  if (!wasAlreadyDelivered) {
+    const recipient = emailRecipientFromOrder(fresh, null);
+    sendShippedNotificationEmail(fresh, recipient).catch((err) =>
+      console.error("[email] shipped notification:", err?.message || err)
+    );
+  }
 });
 
 export const cancelAdminOrder = asyncHandler(async (req, res) => {
