@@ -92,6 +92,45 @@ app.get("/api/site-content/home_hero", getPublicHero);
 app.use("/api/admin", adminHubRoutes);
 app.use("/api/newsletter", newsletterLimiter, newsletterRoutes);
 
+// ── Temporary SMTP diagnostic endpoint — remove after testing ──────────────
+app.get("/api/debug/test-email", async (req, res) => {
+  const secret = process.env.DEBUG_SECRET;
+  if (!secret || req.query.secret !== secret) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+  const nodemailer = (await import("nodemailer")).default;
+  const host = process.env.SMTP_HOST;
+  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const from = process.env.EMAIL_FROM || user;
+  const to   = req.query.to || user;
+  if (!host || !user || !pass) {
+    return res.json({ ok: false, step: "config", host: !!host, user: !!user, pass: !!pass });
+  }
+  const transport = nodemailer.createTransport({
+    host, port, secure: port === 465, auth: { user, pass },
+    connectionTimeout: 10_000, socketTimeout: 15_000, greetingTimeout: 10_000,
+  });
+  try {
+    await transport.verify();
+  } catch (err) {
+    return res.json({ ok: false, step: "verify", error: err.message });
+  }
+  try {
+    const info = await transport.sendMail({
+      from: `"${process.env.STORE_NAME || "SMTP test"}" <${from}>`,
+      to,
+      subject: `[${process.env.STORE_NAME || "SMTP test"}] connection test`,
+      text: `SMTP is working. Sent at ${new Date().toISOString()}`,
+    });
+    return res.json({ ok: true, messageId: info.messageId, to });
+  } catch (err) {
+    return res.json({ ok: false, step: "sendMail", error: err.message });
+  }
+});
+// ── End temporary endpoint ──────────────────────────────────────────────────
+
 app.use(notFound);
 app.use(errorHandler);
 
