@@ -47,6 +47,23 @@ button {
   cursor: pointer;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Accessible keyboard focus ring — visible only when keyboard navigating */
+:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth scroll for all anchor nav */
+html {
+  scroll-behavior: smooth;
+}
+
 .auth-alt-action {
   margin-top: 1.5rem;
   text-align: center;

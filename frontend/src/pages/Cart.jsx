@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { toastOpts } from '../utils/api';
 import TransitionOverlay from '../components/ui/TransitionOverlay';
 import { useCart } from '../context/CartContext';
 import '../styles/cart.css';
@@ -62,7 +64,10 @@ const Cart = () => {
                       type="button"
                       className="remove-item"
                       aria-label="Remove"
-                      onClick={() => removeItem(item.productId, item.color, item.size)}
+                      onClick={() => {
+                        removeItem(item.productId, item.color, item.size);
+                        toast.info(`${item.name} removed from cart.`, toastOpts);
+                      }}
                     >
                       ×
                     </button>

@@ -69,7 +69,7 @@ export function emailShell(opts) {
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E8ECEF;">
           <tr>
             <td style="padding:18px 24px;background:#111111;">
-              <p style="margin:0;font-size:17px;font-weight:800;letter-spacing:-0.03em;color:#ffffff;font-family:system-ui,-apple-system,sans-serif;">${brand}</p>
+              <p style="margin:0;font-size:17px;font-weight:800;letter-spacing:-0.03em;color:#ffffff;font-family:system-ui,-apple-system,sans-serif;"><span style="color:#ffffff!important;text-decoration:none!important;">${brand}</span></p>
             </td>
           </tr>
           ${heroBlock || ""}

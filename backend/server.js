@@ -92,34 +92,6 @@ app.get("/api/site-content/home_hero", getPublicHero);
 app.use("/api/admin", adminHubRoutes);
 app.use("/api/newsletter", newsletterLimiter, newsletterRoutes);
 
-// ── Temporary SendGrid diagnostic endpoint — remove after testing ──────────
-app.get("/api/debug/test-email", async (req, res) => {
-  const secret = process.env.DEBUG_SECRET;
-  if (!secret || req.query.secret !== secret) {
-    return res.status(403).json({ error: "Forbidden" });
-  }
-  const apiKey = process.env.SENDGRID_API_KEY;
-  const from   = (process.env.EMAIL_FROM || "").trim();
-  const to     = (req.query.to || from || "").trim();
-  if (!apiKey) return res.json({ ok: false, step: "config", error: "SENDGRID_API_KEY not set" });
-  if (!from)   return res.json({ ok: false, step: "config", error: "EMAIL_FROM not set" });
-  if (!to)     return res.json({ ok: false, step: "config", error: "to address missing" });
-  try {
-    const { default: sgMail } = await import("@sendgrid/mail");
-    sgMail.setApiKey(apiKey);
-    await sgMail.send({
-      from: { name: process.env.STORE_NAME || "SMTP test", email: from },
-      to,
-      subject: `[${process.env.STORE_NAME || "SHOP.CO"}] email test`,
-      text: `SendGrid is working. Sent at ${new Date().toISOString()}`,
-    });
-    return res.json({ ok: true, to, from });
-  } catch (err) {
-    const detail = err?.response?.body?.errors?.[0]?.message || err.message;
-    return res.json({ ok: false, step: "sendGrid", error: detail });
-  }
-});
-// ── End temporary endpoint ──────────────────────────────────────────────────
 
 app.use(notFound);
 app.use(errorHandler);

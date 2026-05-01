@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import api from '../utils/api';
+import { toast } from 'react-toastify';
+import api, { toastOpts } from '../utils/api';
 import ProductDetailSkeleton from '../components/ui/ProductDetailSkeleton';
 import TransitionOverlay from '../components/ui/TransitionOverlay';
 import { useCart } from '../context/CartContext';
@@ -113,7 +114,11 @@ function ProductDetail() {
       : null;
 
   const handleAddToCart = () => {
-    if (!product || !size || goingToCart) return;
+    if (!product || goingToCart) return;
+    if (!size) {
+      toast.error('Please select a size first.', toastOpts);
+      return;
+    }
     addItem({
       productId: product._id,
       name: product.name,
@@ -123,6 +128,7 @@ function ProductDetail() {
       size,
       qty,
     });
+    toast.success(`${product.name} added to cart!`, toastOpts);
     setGoingToCart(true);
     cartNavTimerRef.current = setTimeout(() => {
       cartNavTimerRef.current = null;
@@ -136,9 +142,12 @@ function ProductDetail() {
 
   if (error || !product) {
     return (
-      <main className="product-detail-page">
-        <p className="product-detail-error">{error || 'Product not found'}</p>
-        <Link to="/products">Back to shop</Link>
+      <main className="product-detail-page product-detail-error-page">
+        <div className="product-detail-error-box">
+          <span className="product-detail-error-icon" aria-hidden="true">!</span>
+          <p className="product-detail-error">{error || 'Product not found'}</p>
+          <Link to="/products" className="product-detail-error-link">← Back to shop</Link>
+        </div>
       </main>
     );
   }

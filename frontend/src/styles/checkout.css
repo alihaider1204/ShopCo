@@ -26,6 +26,40 @@
   .checkout-layout {
     grid-template-columns: 1fr;
   }
+
+  .checkout-page {
+    padding: 1rem 1rem 2rem;
+  }
+
+  .checkout-page h1 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .checkout-shipping input,
+  .checkout-shipping select {
+    font-size: 16px; /* prevent iOS zoom on focus */
+  }
+
+  .place-order-btn {
+    width: 100%;
+  }
+
+  .checkout-result {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .checkout-result__actions {
+    width: 100%;
+  }
+
+  .checkout-result__link,
+  .checkout-back-btn {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
 }
 
 .checkout-shipping {

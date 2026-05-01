@@ -173,12 +173,12 @@ const Checkout = () => {
   const handleShippingSubmit = async (e) => {
     e.preventDefault();
     if (!items.length) {
-      toast.error('Your cart is empty');
+      toast.error('Your cart is empty.', toastOpts);
       navigate('/cart');
       return;
     }
     if (!publishableKey || !stripePromise) {
-      toast.error('Payments are not configured. Add VITE_STRIPE_PUBLISHABLE_KEY to your frontend .env');
+      toast.error('Payments are not configured — please contact support.', toastOpts);
       return;
     }
 
