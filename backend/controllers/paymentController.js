@@ -15,7 +15,7 @@ async function attachPaymentIntentToOrder(order, stripe, receiptEmail, currency 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amountCents,
     currency: cur,
-    automatic_payment_methods: { enabled: true },
+    automatic_payment_methods: { enabled: true, allow_redirects: "never" },
     metadata: {
       orderId: String(order._id),
       userId: order.user ? String(order.user) : "guest",

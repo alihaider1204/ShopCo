@@ -65,7 +65,7 @@ function CheckoutPaymentForm({ orderId, receiptEmail, isGuestCheckout, guestToke
 
   return (
     <form onSubmit={handleSubmit} className="checkout-payment-form">
-      <PaymentElement />
+      <PaymentElement options={{ link: { display: 'never' } }} />
       <button type="submit" className="place-order-btn" disabled={!stripe || busy}>
         {busy ? (
           <span className="btn-spinner">

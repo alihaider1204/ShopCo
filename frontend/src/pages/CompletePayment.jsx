@@ -64,7 +64,7 @@ function ResumePaymentForm({ orderId, receiptEmail, isGuestCheckout, guestToken 
 
   return (
     <form onSubmit={handleSubmit} className="checkout-payment-form">
-      <PaymentElement />
+      <PaymentElement options={{ link: { display: 'never' } }} />
       <button type="submit" className="place-order-btn" disabled={!stripe || busy}>
         {busy ? 'Processing…' : 'Pay now'}
       </button>
