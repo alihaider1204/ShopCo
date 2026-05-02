@@ -53,17 +53,24 @@ const ProductsFilter = ({ filters, setFilters, categories = [], onApply, onReset
 
         <div className="filter-header">
           <h3>Filters</h3>
-          <button
-            type="button"
-            className="close-filter"
-            onClick={() => {
-              onReset?.();
-              setMobileOpen(false);
-            }}
-            aria-label="Reset filters and close"
-          >
-            ×
-          </button>
+          <div className="filter-header-actions">
+            <button
+              type="button"
+              className="filter-reset-btn"
+              onClick={() => onReset?.()}
+              aria-label="Reset all filters"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              className="close-filter"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close filters"
+            >
+              ×
+            </button>
+          </div>
         </div>
 
         <div className="filter-scrollable-body">
