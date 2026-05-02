@@ -55,7 +55,8 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!selectedSize) return;
+    if (!selectedSize || goingToCart) return;
+    if (cartNavTimerRef.current) clearTimeout(cartNavTimerRef.current);
     const colors = product.colors?.length ? product.colors : ['Default'];
     addItem({
       productId: id,
